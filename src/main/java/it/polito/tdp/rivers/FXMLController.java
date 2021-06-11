@@ -54,6 +54,7 @@ public class FXMLController {
     void doSimula(ActionEvent event) {
     	
     }
+    @FXML
     void setParametri(ActionEvent event) {
     	River temp = boxRiver.getValue();
     	if(temp!=null) {
