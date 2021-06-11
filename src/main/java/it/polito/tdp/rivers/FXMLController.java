@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.rivers.model.Model;
+import it.polito.tdp.rivers.model.River;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,7 +26,7 @@ public class FXMLController {
     private URL location;
 
     @FXML // fx:id="boxRiver"
-    private ComboBox<?> boxRiver; // Value injected by FXMLLoader
+    private ComboBox<River> boxRiver; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtStartDate"
     private TextField txtStartDate; // Value injected by FXMLLoader
@@ -62,5 +63,12 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	boxRiver.getItems().addAll(model.getRivers());
+    	
+    	if(boxRiver.getValue()!=null) {
+    		River fiume = boxRiver.getValue();
+    		//txtStartDate.setPromptText(model.getStartDate(fiume));
+    	}
+    	
     }
 }
