@@ -7,14 +7,17 @@ public class Model {
 	
 	
 	RiversDAO dao;
+	List<River> rivers;
 	
 	public Model() {
 		dao = new RiversDAO();
+		rivers = dao.getAllRivers();
+		for(River r : rivers) {
+			dao.getFlowsForRIver(r);
+		}
 	}
 
-	public List<River> getAllRivers(){
-		return dao.getAllRivers();
-	}
 	
-	public 
+	
+	
 }

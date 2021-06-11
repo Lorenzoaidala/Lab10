@@ -13,11 +13,11 @@ import java.sql.SQLException;
 
 public class RiversDAO {
 
-	public void getAllRivers(Map<Integer,River> idMap) {
+	public List<River> getAllRivers() {
 		
 		final String sql = "SELECT id, name FROM river";
 
-		//List<River> rivers = new LinkedList<River>();
+		List<River> rivers = new LinkedList<River>();
 
 		try {
 			Connection conn = DBConnect.getConnection();
@@ -25,10 +25,11 @@ public class RiversDAO {
 			ResultSet res = st.executeQuery();
 
 			while (res.next()) {
-				idMap.put(res.getInt(("id"), rs.get)
+				rivers.add(new River(res.getInt("id"), res.getString("name")));
 			}
 
 			conn.close();
+			
 			
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -38,7 +39,7 @@ public class RiversDAO {
 		return rivers;
 	}
 	
-	public double getAvgFlow(int river_id) {
+	/*public double getAvgFlow(int river_id) {
 		
 		String sql="SELECT AVG(flow)AS media "
 				+ "FROM flow "
@@ -55,9 +56,9 @@ public class RiversDAO {
 		}catch(SQLException e) {
 			throw new RuntimeException("Error Connection Database");
 		}
-	}
+	}*/
 	
-	public List<Flow> getFlowsForRIver(int river_id){
+	public List<Flow> getFlowsForRIver(River river){
 		String sql ="SELECT DAY,flow "
 				+ "FROM flow "
 				+ "WHERE river =?";
@@ -67,13 +68,14 @@ public class RiversDAO {
 		try {
 			Connection conn = DBConnect.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, river_id);
+			st.setInt(1, river.getId());
 			ResultSet res = st.executeQuery();
 			
 			while(res.next()) {
-				result.add(new Flow(res.get("DAY"), res.getDouble("flow"),river_id ));
+				result.add(new Flow(res.getDate("DAY").toLocalDate(), res.getDouble("flow"),river));
 			}
-			
+			conn.close();
+			return result;
 			
 		}catch(SQLException e) {
 			throw new RuntimeException("Error Connection Database");
