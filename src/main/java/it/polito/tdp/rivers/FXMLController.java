@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import it.polito.tdp.rivers.model.Model;
 import it.polito.tdp.rivers.model.River;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -48,6 +49,20 @@ public class FXMLController {
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
+    
+    @FXML
+    void doSimula(ActionEvent event) {
+    	
+    }
+    void setParametri(ActionEvent event) {
+    	River temp = boxRiver.getValue();
+    	if(temp!=null) {
+    		txtStartDate.setText(model.getStartDate(temp).toString());
+    		txtEndDate.setText(model.getEndDate(temp).toString());
+    		txtNumMeasurements.setText(String.valueOf(model.getNumeroMisurazioni(temp)));
+    		txtFMed.setText(String.valueOf(model.getAvgFlows(temp)));
+    	}
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

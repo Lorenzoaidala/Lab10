@@ -34,11 +34,19 @@ public class Model {
 	}
 
 	public LocalDate getStartDate(River r) {
+		if(!r.getFlows().isEmpty())
 		return r.getFlows().get(0).getDay();
+		return null;
 	}
 	
 	public LocalDate getEndDate(River r) {
+		if(!r.getFlows().isEmpty())
 		return r.getFlows().get(r.getFlows().size()-1).getDay();
+		return null;
+	}
+	
+	public int getNumeroMisurazioni(River r) {
+		return r.getFlows().size();
 	}
 	
 	
