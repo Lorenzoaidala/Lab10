@@ -1,5 +1,6 @@
 package it.polito.tdp.rivers.db;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class RiversDAO {
 	}*/
 	
 	public List<Flow> getFlowsForRIver(River river){
-		String sql ="SELECT DAY,flow "
+		String sql ="SELECT day,flow "
 				+ "FROM flow "
 				+ "WHERE river =?";
 		
@@ -72,9 +73,11 @@ public class RiversDAO {
 			ResultSet res = st.executeQuery();
 			
 			while(res.next()) {
-				result.add(new Flow(res.getDate("DAY").toLocalDate(), res.getDouble("flow"),river));
+				result.add(new Flow(res.getDate("day").toLocalDate(), res.getDouble("flow"),river));
 			}
 			conn.close();
+			Collections.sort(result);
+			river.setFlows(result);
 			return result;
 			
 		}catch(SQLException e) {

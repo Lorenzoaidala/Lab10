@@ -9,8 +9,9 @@ import java.util.*;
 public class Model {
 	
 	
-	RiversDAO dao;
-	List<River> rivers;
+	private RiversDAO dao;
+	private List<River> rivers;
+	private PriorityQueue<Flow> queue;
 	
 	public Model() {
 		dao = new RiversDAO();
@@ -49,6 +50,37 @@ public class Model {
 		return r.getFlows().size();
 	}
 	
+	public SimulationResult simulate(River river, double k) {
+		queue= new PriorityQueue<Flow>();
+		this.queue.addAll(river.getFlows());
+		
+		double Q = k*30*convM3alSecToM3alGiorno(river.getFlowAvg());
+		double C = Q/2;
+		double f_out_min = convM3alSecToM3alGiorno(0,8*river.getFlowAvg());
+		int giorniCritici = 0;
+		
+		System.out.println("Q = "+Q);
+		Flow flow;
+		while((flow=this.queue.poll())!=null) {
+			double f_out = f_out_min;
+			
+			if(Math.random()>0.95) {
+				f_out = 10*f_out_min;
+			}
+			C = convM3alSecToM3alGiorno(flow.getFlow());
+			
+			if(C>Q) {
+				C=Q;
+			}
+			if(C<f_out) {
+				giorniCritici++;
+				C=0;
+			} else {
+				C-=f_out;
+			}
+			
+		}
+	}
 	
 	
 }
